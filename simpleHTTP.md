@@ -1046,7 +1046,7 @@ Message in PSR7 format
 **Throws:**
 <p>If there isn't any PSR7 package installed</p>
 
-- [`Error`](./Error.md)
+- [`Error`](https://www.php.net/manual/en/class.error.php)
 
 
 

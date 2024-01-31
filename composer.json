@@ -1,5 +1,5 @@
 {
-    "name": "sirmonti/simpleHTTP",
+    "name": "sirmonti/simplehttp",
     "description": "Wrapper class around file_get_contents function to simplify http and https requests",
     "keywords": ["http","rest","web service","client","HTTP client","PSR-7"],
     "homepage": "https://github.com/sirmonti/simpleHTTP",
@@ -9,8 +9,7 @@
         {
             "name": "Francisco Monteagudo",
             "email": "francisco@monteagudo.net",
-            "homepage": "https://www.monteagudo.net/",
-            "role": "Developer"
+            "homepage": "https://www.monteagudo.net/"
         }
     ],
     "autoload": {

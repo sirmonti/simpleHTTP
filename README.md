@@ -13,7 +13,7 @@ composer require sirmonti/simplehttp
 ```
 This class does not have any external dependency, which means you don't need to
 do a full installation, you can simply download and drop
-[simpleHTTP.php](https://raw.githubusercontent.com/sirmonti/simpleHTTP/main/src/simpleHTTP.php)
+[simpleHTTP.php](https://github.com/sirmonti/simpleHTTP/blob/main/src/simpleHTTP.php)
 file in your project folder.
 
 ## Features
@@ -38,7 +38,6 @@ You create an object of the simpleHTTP class. The constructor has two parameters
 the exception level and the remote certificate validation.
 
 Here we create an object with an exception level 2 and certificate validation disabled:
-
 ```php
   $http=new simpleHTTP(2,false);
 ```
@@ -55,6 +54,7 @@ About the exception levels, there are three levels:
 - 2: Exception will be fired on any error.
 
 Default values is exception level 1 and certificate validation enabled.
+
 Supported methods are: **GET**, **POST**, **PUT**, **HEAD**, **DELETE**
 and **OPTIONS**. The request call return the request body and the other
 data, like response headers, are stored internally and can be retrieved.

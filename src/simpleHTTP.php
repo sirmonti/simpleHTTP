@@ -37,7 +37,7 @@ class simpleHTTP {
      * 
      * When connecting to a https site, the program verify if the
      * certificate is valid and fires an error if not. Disabling certificate validation
-     * you can prevent this error and connect to sites with bogus certificate.
+     * you can prevent this error and connect to sites with faulty certificate.
      * You can edit this value to change default value.
      * 
      * @var bool
