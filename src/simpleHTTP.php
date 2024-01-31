@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @package simpleHTTP
  */
+use Composer\Script\Event;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Psr\Http\Message\ResponseInterface;
 use Nyholm\Psr7\Response as NResponse;
 use GuzzleHttp\Psr7\Response as GResponse;
@@ -64,7 +66,13 @@ class simpleHTTP {
     private const DEFHEADER = ['User-Agent: ' . self::USERAGENT];
 
     /** @ignore */
-    private const RESPPACKAGES = ['httpsoft/http-message', 'nyholm/psr7', 'guzzlehttp/psr7', 'laminas/laminas-diactoros', 'slim/psr7'];
+    private const RESPPACKAGES=[
+        'httpsoft/http-message'=>'HttpSoft\Message\Response',
+        'nyholm/psr7'=>'Nyholm\Psr7\Response',
+        'guzzlehttp/psr7'=>'GuzzleHttp\Psr7\Response',
+        'laminas/laminas-diactoros'=>'Laminas\Diactoros\Response',
+        'slim/psr7'=>'Slim\Psr7\Response'
+    ];
 
     /** @ignore */
     private array $extraheaders = [];
@@ -755,6 +763,25 @@ class simpleHTTP {
             fseek($o, 0);
             return new SResponse($this->respcode, $h, new SSTream($o));
         }
-        throw new Error(_('To use this method you must have installed one of the following packages') . ': ' . implode(self::RESPPACKAGES));
+        throw new Error(_('To use this method you must have installed one of the following packages') . ': ' . implode(', ',array_keys(self::RESPPACKAGES)));
     }
+
+    /** @ignore */
+    static public function verifyPSR7() {
+        file_put_contents('prueba.txt','Ejecutado');
+        $out=new ConsoleOutput;
+        foreach(self::RESPPACKAGES as $name=>$class) {
+            if(class_exists($class)) {
+                $out->writeln(sprintf('PSR7 will be provided by %s',$name));
+                return;
+            }
+        }
+        $out->writeln('<fg=red>There isn\'t any PSR7 package installed, you will not be able to use PSR7Response() method</>');
+        $out->writeln('<fg=green>If you want to use it, you must install one of this packages:</>');
+        foreach(self::RESPPACKAGES as $name=>$class) {
+            $out->writeln('  <fg=blue>'.$name.'</>');
+        }
+        $out->writeln('<fg=green>-----</>');
+    }
+
 }

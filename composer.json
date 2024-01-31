@@ -3,6 +3,7 @@
     "description": "Wrapper class around file_get_contents function to simplify http and https requests",
     "keywords": ["http","rest","web service","client","HTTP client","PSR-7"],
     "homepage": "https://github.com/sirmonti/simpleHTTP",
+    "version":"10.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -18,5 +19,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.4"
+    },
+    "scripts": {
+        "post-package-install":"simpleHTTP::verifyPSR7"
     }
 }
