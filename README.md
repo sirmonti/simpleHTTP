@@ -2,16 +2,19 @@
 Wrapper around file_get_contents function to simplify HTTP and HTTPS connections
 
 ## Description
-This class aim to provide a simple and convenient solution to use web services
-or to retrieve web resources, it don't pretends to compete with full featured
-network frameworks, as Guzzle or Swoole
+Wrapper class around file_get_contents function. This class is not intended
+to compete with full featured network frameworks, as Guzzle or Swoole, but to
+provide a simple and convenient solution to use web services or access web resources
 
 ## Installation
 Via composer
 ```console
 composer require sirmonti/simplehttp
 ```
-Alternatively, you can download simply drop simpleHTTP.php file in your project folder.
+This class does not have any external dependency, which means you don't need to
+do a full installation, you can simply download and drop
+[simpleHTTP.php](https://raw.githubusercontent.com/sirmonti/simpleHTTP/main/src/simpleHTTP.php)
+file in your project folder.
 
 ## Features
 - Lightweigth
@@ -22,9 +25,14 @@ Alternatively, you can download simply drop simpleHTTP.php file in your project 
   certificate to authenticate agains remote site
 - Configurable exception level. You can disable exceptions, fire exceptions only
   on network errors, or fire exceptions on HTTP errors too
-- Responses in PSR7 format. This feature requires an external package installed.
+- Responses in PSR7 format. This feature requires an external package installed
 
 ## Basic usage
+
+This is only a brief explanation, the file [simpleHTTP.md](simpleHTTP.md) provide
+a more extensive method reference.
+
+Complete documentation can be found [Here](https://sirmonti.github.io/simpleHTTP/).
 
 You create an object of the simpleHTTP class. The constructor has two parameters,
 the exception level and the remote certificate validation.
@@ -72,9 +80,8 @@ Example getting a PSR7 response
   $http->get('https://www.example.com/');
   $resp=$http->PSRResponse();
 ```
-Complete documentation can be found [Here](https://sirmonti/github.io/simpleHTTP/)
-
 ## Examples
+There are more examples in [examples](examples) folder.
 
 This is the most simple usage:
 ```php

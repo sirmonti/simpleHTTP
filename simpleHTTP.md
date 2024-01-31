@@ -2,9 +2,10 @@
 
 # simpleHTTP
 
-This class is a wrapper around file_get_contents function, it not pretends to compete
-with full featured client network libraries, like Guzzle or Swoole, it only pretends to provide
-a simple solution for use webservices or web resource access.
+Wrapper class around file_get_contents function. This class is not intended
+to compete with full featured network frameworks, as Guzzle or Swoole, but
+to provide a simple and convenient solution to use web services or access
+web resources
 
 
 
@@ -1046,3 +1047,11 @@ Message in PSR7 format
 <p>If there isn't any PSR7 package installed</p>
 
 - [`Error`](./Error.md)
+
+
+
+***
+
+
+***
+> Automatically generated on 2024-01-31

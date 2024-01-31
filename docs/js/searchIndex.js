@@ -3,7 +3,7 @@ Search.appendIndex(
                 {
             "fqsen": "\\simpleHTTP",
             "name": "simpleHTTP",
-            "summary": "This\u0020class\u0020is\u0020a\u0020wrapper\u0020around\u0020file_get_contents\u0020function,\u0020it\u0020not\u0020pretends\u0020to\u0020compete\nwith\u0020full\u0020featured\u0020client\u0020network\u0020libraries,\u0020like\u0020Guzzle\u0020or\u0020Swoole,\u0020it\u0020only\u0020pretends\u0020to\u0020provide\na\u0020simple\u0020solution\u0020for\u0020use\u0020webservices\u0020or\u0020web\u0020resource\u0020access.",
+            "summary": "Wrapper\u0020class\u0020around\u0020file_get_contents\u0020function.\u0020This\u0020class\u0020is\u0020not\u0020intended\nto\u0020compete\u0020with\u0020full\u0020featured\u0020network\u0020frameworks,\u0020as\u0020Guzzle\u0020or\u0020Swoole,\u0020but\nto\u0020provide\u0020a\u0020simple\u0020and\u0020convenient\u0020solution\u0020to\u0020use\u0020web\u0020services\u0020or\u0020access\nweb\u0020resources",
             "url": "classes/simpleHTTP.html"
         },                {
             "fqsen": "\\simpleHTTP\u003A\u003A__construct\u0028\u0029",

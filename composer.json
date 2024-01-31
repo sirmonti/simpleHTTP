@@ -1,0 +1,23 @@
+{
+    "name": "sirmonti/simpleHTTP",
+    "description": "Wrapper class around file_get_contents function to simplify http and https requests",
+    "keywords": ["http","rest","web service","client","HTTP client","PSR-7"],
+    "homepage": "https://github.com/sirmonti/simpleHTTP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Francisco Monteagudo",
+            "email": "francisco@monteagudo.net",
+            "homepage": "https://www.monteagudo.net/",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "classmap": ["src"]
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4"
+    }
+}
