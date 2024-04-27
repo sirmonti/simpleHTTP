@@ -47,6 +47,40 @@ class simpleHTTP {
     public bool $verifCERT = true;
 
     /**
+     * If request returns a redirection, it must be followed.
+     * 
+     * @var bool
+     */
+    public bool $followRedirs = true;
+
+    /**
+     * On the request command, send the full URI instead the path.
+     * 
+     * For example, instead send "GET /test.html HTTP/1.1" command to the server,
+     * script will send "GET http://www.example.com/test.html HTTP/1.1".
+     * Include full URI breaks standard, but is neccesary if connect to a proxy.
+     * 
+     * @var bool
+     */
+    public bool $reqFullURI = false;
+
+    /**
+     * How many redirections must be followed before a "Many redirections"
+     * error must be fired
+     * 
+     * @var int
+     */
+    public int $maxfollows = 20;
+
+    /**
+     * Connection timeout. Connection closes if exceds timeout without
+     * response. Default value is ten seconds.
+     * 
+     * @var float
+     */
+    public float $timeout = 10.0;
+
+    /**
      * Exception level. You can edit this value to change default value
      * 
      * Expected values:
@@ -60,7 +94,7 @@ class simpleHTTP {
     private int $exceptlevel = 1;
 
     /** @ignore */
-    private const USERAGENT = 'simpleHTTP/6.0';
+    private const USERAGENT = 'simpleHTTP/7.0';
 
     /** @ignore */
     private const DEFHEADER = ['User-Agent: ' . self::USERAGENT];
@@ -102,6 +136,9 @@ class simpleHTTP {
     private string $method = '';
 
     /** @ignore */
+    private string $hostheader = '';
+
+    /** @ignore */
     private array $sendheaders = [];
 
     /** @ignore */
@@ -121,6 +158,9 @@ class simpleHTTP {
 
     /** @ignore */
     private string $passphrase = '';
+
+    /** @ignore */
+    private string $proxy = '';
 
     /**
      * Constructor
@@ -146,26 +186,16 @@ class simpleHTTP {
     /** @ignore */
     private function mergeHeaders(array $headers) {
         $this->sendheaders = [];
-        $noms = ['host' => true, 'content-length' => true];
-        foreach ($headers as $head) {
-            $key = strtolower(strstr($head, ':', true));
-            if (!isset($noms[$key])) {
-                $noms[$key] = true;
-                $this->sendheaders[] = $head;
-            }
-        }
-        foreach ($this->extraheaders as $head) {
-            $key = strtolower(strstr($head, ':', true));
-            if (!isset($noms[$key])) {
-                $noms[$key] = true;
-                $this->sendheaders[] = $head;
-            }
-        }
-        foreach (self::DEFHEADER as $head) {
-            $key = strtolower(strstr($head, ':', true));
-            if (!isset($noms[$key])) {
-                $noms[$key] = true;
-                $this->sendheaders[] = $head;
+        $noms = ['content-length' => true];
+        $this->hostheader = '';
+        foreach([$headers,$this->extraheaders,self::DEFHEADER] as $hdrs) {
+            foreach ($hdrs as $head) {
+                $key = strtolower(strstr($head, ':', true));
+                if (!isset($noms[$key])) {
+                    $noms[$key] = true;
+                    $this->sendheaders[] = $head;
+                    if($key=='host') $this->hostheader = trim(substr(strstr($head,':'),1));
+                }
             }
         }
     }
@@ -183,26 +213,29 @@ class simpleHTTP {
             $this->respstatus = _('Invalid scheme. This class only supports http and https connections');
             throw new Exception;
         }
-        $host = $info['host'];
-        $this->sendheaders[] = 'Host: ' . $host;
+        if($this->hostheader=='') {
+            $host = $info['host'];
+            $this->sendheaders[] = 'Host: ' . $host;
+        } else {
+            $host = $this->hostheader;
+        }
+        $this->opts = [
+            'http' => [
+                'ignore_errors' => true,
+                'request_fulluri' => $this->reqFullURI,
+                'timeout' => $this->timeout,
+                'follow_location' => $this->followRedirs ? 1:0,
+                'max_redirects' => $this->maxfollows,
+                'method' => $this->method
+            ]
+        ];
         if ($this->body != '') {
             $this->sendheaders[] = 'Content-Length: ' . strlen($this->body);
-            $this->opts = [
-                'http' => [
-                    'ignore_errors' => true,
-                    'method' => $this->method,
-                    'header' => $this->sendheaders,
-                    'content' => $this->body
-                ]
-            ];
-        } else {
-            $this->opts = [
-                'http' => [
-                    'ignore_errors' => true,
-                    'method' => $this->method,
-                    'header' => $this->sendheaders
-                ]
-            ];
+            $this->opts['http']['content'] = $this->body;
+        }
+        $this->opts['http']['header'] = $this->sendheaders;
+        if($this->proxy!='') {
+            $this->opts['http']['proxy']=$this->proxy;
         }
         if (strtolower($info['scheme']) == 'https') {
             if ($this->verifCERT) {
@@ -334,6 +367,44 @@ class simpleHTTP {
     }
 
     /**
+     * Set the proxy server
+     * 
+     * You provide the host name or IP address and port
+     * 
+     * @param string $host Proxy host
+     * @param int $port Proxy port
+     * @return bool Proxy has been set OK
+     */
+    function setProxy(string $host='',int $port=8080): bool {
+        if($host=='') {
+            $this->proxy='';
+            return true;
+        }
+        if($port==0) return false;
+        if((filter_var($host,FILTER_VALIDATE_IP,FILTER_FLAG_IPV4|FILTER_FLAG_IPV6))||
+           (filter_vars($host,FILTER_VALIDATE_DOMAIN,FILTER_FLAG_HOSTNAME))) {
+            $this->proxy='tcp://'.$host.':'.$port;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get the proxy parameters
+     * 
+     * @param string $host Filled with proxy host name or IP
+     * @param int $port Filled with proxy port
+     */
+    function getProxy(string &$host, int &$port) {
+        $host='';
+        $port=0;
+        if($this->proxy=='') return;
+        if(!preg_match('/^tcp\:\/\/(.+)\:([0-9]+)$/',$this->proxy,$resp)) return;
+        $host=$resp[1];
+        $port=(int)$resp[2];
+    }
+
+    /**
      * Define a set of extra headers to be attached to following requests
      * 
      * @param array<int,string> $headers Extra headers to set
@@ -364,6 +435,18 @@ class simpleHTTP {
         if (count($this->sendheaders) == 0)
             return self::DEFHEADER;
         return $this->sendheaders;
+    }
+
+    /**
+     * Get the body that has been sent on last request
+     * 
+     * If you call this method before any request, it will
+     * return an empty string.
+     * 
+     * @return string Body sent on last request
+     */
+    function getSendBody(): string {
+        return $this->body;
     }
 
     /**
@@ -768,7 +851,6 @@ class simpleHTTP {
 
     /** @ignore */
     static public function verifyPSR7() {
-        file_put_contents('prueba.txt','Ejecutado');
         $out=new ConsoleOutput;
         foreach(self::RESPPACKAGES as $name=>$class) {
             if(class_exists($class)) {
