@@ -1,3 +1,5 @@
 nbproject/
 .phpdoc/
 tools/
+MDdocs/
+vendor/

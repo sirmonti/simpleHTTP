@@ -21,6 +21,16 @@ Search.appendIndex(
             "summary": "Get\u0020the\u0020configured\u0020exception\u0020level",
             "url": "classes/simpleHTTP.html#method_getExceptionLevel"
         },                {
+            "fqsen": "\\simpleHTTP\u003A\u003AsetProxy\u0028\u0029",
+            "name": "setProxy",
+            "summary": "Set\u0020the\u0020proxy\u0020server",
+            "url": "classes/simpleHTTP.html#method_setProxy"
+        },                {
+            "fqsen": "\\simpleHTTP\u003A\u003AgetProxy\u0028\u0029",
+            "name": "getProxy",
+            "summary": "Get\u0020the\u0020proxy\u0020parameters",
+            "url": "classes/simpleHTTP.html#method_getProxy"
+        },                {
             "fqsen": "\\simpleHTTP\u003A\u003AsetExtraHeaders\u0028\u0029",
             "name": "setExtraHeaders",
             "summary": "Define\u0020a\u0020set\u0020of\u0020extra\u0020headers\u0020to\u0020be\u0020attached\u0020to\u0020following\u0020requests",
@@ -35,6 +45,11 @@ Search.appendIndex(
             "name": "getSendHeaders",
             "summary": "Get\u0020the\u0020headers\u0020that\u0020has\u0020been\u0020sent\u0020on\u0020last\u0020request",
             "url": "classes/simpleHTTP.html#method_getSendHeaders"
+        },                {
+            "fqsen": "\\simpleHTTP\u003A\u003AgetSendBody\u0028\u0029",
+            "name": "getSendBody",
+            "summary": "Get\u0020the\u0020body\u0020that\u0020has\u0020been\u0020sent\u0020on\u0020last\u0020request",
+            "url": "classes/simpleHTTP.html#method_getSendBody"
         },                {
             "fqsen": "\\simpleHTTP\u003A\u003AgetPeerCert\u0028\u0029",
             "name": "getPeerCert",
@@ -155,6 +170,26 @@ Search.appendIndex(
             "name": "verifCERT",
             "summary": "Enable\/Disable\u0020certificate\u0020verification\u0020on\u0020https\u0020connections.",
             "url": "classes/simpleHTTP.html#property_verifCERT"
+        },                {
+            "fqsen": "\\simpleHTTP\u003A\u003A\u0024followRedirs",
+            "name": "followRedirs",
+            "summary": "If\u0020request\u0020returns\u0020a\u0020redirection,\u0020it\u0020must\u0020be\u0020followed.",
+            "url": "classes/simpleHTTP.html#property_followRedirs"
+        },                {
+            "fqsen": "\\simpleHTTP\u003A\u003A\u0024reqFullURI",
+            "name": "reqFullURI",
+            "summary": "On\u0020the\u0020request\u0020command,\u0020send\u0020the\u0020full\u0020URI\u0020instead\u0020the\u0020path.",
+            "url": "classes/simpleHTTP.html#property_reqFullURI"
+        },                {
+            "fqsen": "\\simpleHTTP\u003A\u003A\u0024maxfollows",
+            "name": "maxfollows",
+            "summary": "How\u0020many\u0020redirections\u0020must\u0020be\u0020followed\u0020before\u0020a\u0020\u0022Many\u0020redirections\u0022\nerror\u0020must\u0020be\u0020fired",
+            "url": "classes/simpleHTTP.html#property_maxfollows"
+        },                {
+            "fqsen": "\\simpleHTTP\u003A\u003A\u0024timeout",
+            "name": "timeout",
+            "summary": "Connection\u0020timeout.\u0020Connection\u0020closes\u0020if\u0020exceds\u0020timeout\u0020without\nresponse.\u0020Default\u0020value\u0020is\u0020ten\u0020seconds.",
+            "url": "classes/simpleHTTP.html#property_timeout"
         },                {
             "fqsen": "\\simpleHTTP\u003A\u003A\u0024exceptlevel",
             "name": "exceptlevel",
