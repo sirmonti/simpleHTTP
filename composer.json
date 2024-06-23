@@ -21,5 +21,9 @@
     },
     "scripts": {
         "post-package-install":"simpleHTTP::verifyPSR7"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.59",
+        "phpstan/phpstan": "^1.11"
     }
 }

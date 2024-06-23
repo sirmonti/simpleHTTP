@@ -1,3 +1,7 @@
+composer.lock
+fixer.sh
+phpstan.sh
+.php-cs-fixer.cache
 nbproject/
 .phpdoc/
 tools/
